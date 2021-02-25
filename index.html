@@ -57,7 +57,7 @@
   <audio data-key="KeyL" src="sounds/tink.wav"></audio>
 
 <script>
-  // Using KeyBoardEvent.code properties https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
+  // Using keyboardEvent.code property (keyboardEvent.keyCode deprecated) https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
   function playSound(e) {
     const audio = document.querySelector(`audio[data-key="${e.code}"]`);
     const key = document.querySelector(`.key[data-key="${e.code}"]`);
