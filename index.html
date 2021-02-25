@@ -57,13 +57,28 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-  window.addEventListener('keydown', (e) => {
-    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+  function playSound(e) {const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
     if (!audio) return; // Stop function from running altogether
     // If you call play on an audio element that's already playing, won't play it again; rewinding it to start if you hit it in succession
     audio.currentTime = 0;
     audio.play();
-  })
+    key.classList.add('playing');
+    // Using transitionend event (fired when a CSS transition has completed) instead of setTimeout (with time corresponding to transition in CSS) so don't have to worry about keeping it in sync with the value set in CSS transition property
+  }
+
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return; // Skip if not a transform
+    // this will be element that fired event (key)
+    console.log(this);
+    this.classList.remove('playing');
+  }
+
+  const keys = document.querySelectorAll('.key');
+  // When you have an array or something like it (NodeList in this case), must explicitly loop over every element and attach an event listener; can't just add event listener to keys
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+  window.addEventListener('keydown', playSound);
 </script>
 
 
